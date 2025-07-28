@@ -1,22 +1,10 @@
-import React, { createContext, useContext } from 'react';
-import {
-  ToastProvider as RNToastProvider,
-  useToast as useRNToast,
-} from 'react-native-toast-notifications';
+import React, { createContext, useContext, useRef } from 'react';
+import { ToastProvider as RNToastProvider } from 'react-native-toast-notifications';
 
 const ToastContext = createContext();
 
 export const ToastProvider = ({ children }) => {
-  return (
-    <RNToastProvider placement="top">
-      <InnerToastProvider>{children}</InnerToastProvider>
-    </RNToastProvider>
-  );
-};
-
-// Inner component that gets access to the real useToast()
-const InnerToastProvider = ({ children }) => {
-  const toast = useRNToast();
+  const toastRef = useRef(null);
 
   const showTypedToast = (type, message, position = 'top', duration = 3000) => {
     const colors = {
@@ -25,8 +13,8 @@ const InnerToastProvider = ({ children }) => {
       error: '#f44336',
     };
 
-    toast.show(message, {
-      type: 'custom_type',
+    toastRef.current.show(message, {
+      type: 'custom_type', // You can also define your own types if needed
       placement: position,
       duration: duration,
       style: {
@@ -44,7 +32,9 @@ const InnerToastProvider = ({ children }) => {
 
   return (
     <ToastContext.Provider value={{ showTypedToast }}>
-      {children}
+      <RNToastProvider ref={toastRef} placement="top">
+        {children}
+      </RNToastProvider>
     </ToastContext.Provider>
   );
 };

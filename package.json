@@ -1,0 +1,11 @@
+{
+  "name": "react-native-custom-toast-message",
+  "version": "1.0.0",
+  "description": "This is react native custom toast message library.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rishabh mishra",
+  "license": "ISC"
+}
